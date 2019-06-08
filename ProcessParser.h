@@ -47,7 +47,7 @@ private:
 // TODO: Define all of the above functions below:
 
 static string ProcessParser::getCmd(string pid) {
-    Util::getStream(Path::basePath() + pid + Path::cmdPath(), stream);
+    stream = Util::getStream(Path::basePath() + pid + Path::cmdPath());
     string line;
     while(getline(stream, line)) {
         return line;
@@ -57,20 +57,35 @@ static string ProcessParser::getCmd(string pid) {
 }
 
 static vector<string> ProcessParser::getPidList() {
-    vector<string> pidList;
-    read_directory(Path::basePath(), pidList);
-    return 
-}
-static std::string ProcessParser::getVmSize(string pid) {
-    Util.getStream(Path::basePath() + pid + Path::statusPath(), stream);
 
+}
+
+static std::string ProcessParser::getVmSize(string pid) {
+    std::string line;
+    std::string name = "VmData";
+    std::string value;
+    float result;
+    stream = Util::getStream(Path::basePath() + pid + Path::statusPath());
+    while(std::getline(stream, line)){
+        // Searching line by line
+        if (line.compare(0, name.size(),name) == 0) {
+            // slicing string line on ws for values using sstream
+            istringstream buf(line);
+            istream_iterator<string> beg(buf), end;
+            vector<string> values(beg, end);
+            //conversion kB -> GB
+            result = (stof(values[1])/float(1024));
+            break;
+        }
+    }
+    return to_string(result);
     return 
 }
 static std::string ProcessParser::getCpuPercent(string pid) {
     return 
 }
 static long int ProcessParser::getSysUpTime() {
-    Util.getStream(Path::basePath() + pid + Path::cmdPath(), stream);
+    Util::getStream(Path::basePath() + pid + Path::cmdPath(), stream);
     return 
 }
 static std::string ProcessParser::getProcUpTime(string pid) {
@@ -101,7 +116,7 @@ static int ProcessParser::getNumberOfRunningProcesses() {
     return 
 }
 static string ProcessParser::getOSName() {
-    Util.getStream(Path::basePath() + Path::versionPath(), stream);
+    Util::getStream(Path::basePath() + Path::versionPath(), stream);
     return ;
 }
 static std::string ProcessParser::PrintCpuStats(std::vector<std::string> values1, std::vector<std::string>values2)  {
