@@ -27,7 +27,7 @@ public:
         return "/status";
     }
     static string statPath(){
-        return "stat";
+        return "/stat";
     }
     static string upTimePath(){
         return "uptime";
@@ -36,6 +36,6 @@ public:
         return "meminfo";
     }
     static string versionPath(){
-        return "version_signature";
+        return "version";
     }
 };
